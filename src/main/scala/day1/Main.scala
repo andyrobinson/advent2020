@@ -13,14 +13,17 @@ object Main extends App {
   }
 
   numbers.foreach(i => {
-    val answer = numbers.filter(j => i+j == 2020)
-    if (answer.nonEmpty) println ("Answer1: " + answer.head * i)
+    numbers.find(j => i+j == 2020).map { answer =>
+      println ("Answer1: " + answer * i)
+    }
   })
 
   numbers.foreach(i => {
     numbers.filter(j => i+j < 2020).foreach (j => {
-      val answer = numbers.filter(k => i+j+k == 2020)
-      if (answer.nonEmpty) println ("Answer2" + ": " + answer.head * i * j)
+      numbers.find(k => i+j+k == 2020).map { answer =>
+        println ("Answer2" + ": " + answer * i * j)
+      }
     })
   })
+  
 }
