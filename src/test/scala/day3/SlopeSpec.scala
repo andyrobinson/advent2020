@@ -7,7 +7,7 @@ class SlopeSpec extends AnyFunSpec with Matchers {
   it("parses input lines into a list of co-ordinates") {
     val rawInput = List("..#..##", ".#.....", "###....")
     val slope = Slope.fromText(rawInput)
-    slope.trees shouldBe List((2,0),(5,0),(6,0),(1,1),(0,2),(1,2),(2,2))
+    slope.treeCoordinates shouldBe List((2,0),(5,0),(6,0),(1,1),(0,2),(1,2),(2,2))
   }
 
   it("indicates if there is a tree") {
