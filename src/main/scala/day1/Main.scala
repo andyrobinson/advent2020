@@ -13,7 +13,7 @@ object Main extends App {
         case (None, l) if l.nonEmpty => (fn(l, target - i).map(_*i), l.tail)
         case (None, _) => (None, Nil)
       }})._1
-  
+
   val filename = "expenses.txt"
   val numbers: Seq[Int] = Source.fromResource(filename).getLines.map(_.toInt).toList
 
