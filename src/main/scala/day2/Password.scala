@@ -13,7 +13,7 @@ case class Password(point1: Int, point2: Int, limitedCharacter: Char, password: 
 }
 
 object Password {
-  val passwordRegEx = """^(\d+)-(\d+)\s([a-z]):\s([a-zA-z]+)$""".r
+  val passwordRegEx = """^(\d+)-(\d+)\s([a-z]):\s([a-zA-Z]+)$""".r
 
   def parse(value: String): Password = {
     value match {
