@@ -18,7 +18,7 @@ object Main extends App {
       case (previousSeat, None) => if (seat - previousSeat == 2) (seat, Some(seat-1)) else (seat, None)
     }
   }
-  
+
   println("Answer1: " + missingAndLast._1)
   println("Answer2: " + missingAndLast._2.get)
 
