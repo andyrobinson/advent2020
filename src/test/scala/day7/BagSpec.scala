@@ -1,7 +1,5 @@
 package day7
 
-import java.security.KeyStore.TrustedCertificateEntry
-
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
