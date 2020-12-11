@@ -4,6 +4,8 @@ case class Seats(seating: Map[(Int, Int), Boolean], width: Int, height: Int)
 
 object Seats {
 
+  private val allDirections = List((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1))
+
   def iterateUntilStable(seats: Seats, iterationFn: Seats => Seats): Seats = {
     val newSeats = iterationFn(seats)
     if (newSeats != seats) iterateUntilStable(newSeats, iterationFn) else seats
@@ -19,7 +21,7 @@ object Seats {
     }))
 
   private def neighbourCount(seat: (Int,Int), seats: Seats): Int = {
-    List((-1, -1),(0, -1),(1, -1),(-1, 0),(1, 0),(-1, 1),(0, 1),(1, 1)).foldLeft(0) {case (acc, (xOffset, yOffset)) =>
+    allDirections.foldLeft(0) {case (acc, (xOffset, yOffset)) =>
       if (seats.seating.getOrElse((seat._1 + xOffset, seat._2 + yOffset), false)) acc + 1 else acc
     }
   }
@@ -32,13 +34,17 @@ object Seats {
     }))
 
   private def visibleCount(seat: (Int,Int), seats: Seats): Int = {
-    List((-1, -1),(0, -1),(1, -1),(-1, 0),(1, 0),(-1, 1),(0, 1),(1, 1)).foldLeft(0) {case (acc, vector) =>
+    allDirections.foldLeft(0) {case (acc, vector) =>
       if (visibleOccupiedSeat(seat, vector, seats)) acc + 1 else acc
     }
   }
 
-  private def visibleOccupiedSeat(coordinates: (Int, Int), vector: (Int, Int), seats: Seats): Boolean = false
-
+  private def visibleOccupiedSeat(coordinates: (Int, Int), vector: (Int, Int), seats: Seats): Boolean = {
+    val (x,y) = (coordinates._1 + vector._1, coordinates._2 + vector._2)
+    if (x < 0 || y < 0 || x >= seats.width || y >= seats.height) return false
+    if (seats.seating.isDefinedAt((x,y))) return seats.seating.get((x,y)).get
+    visibleOccupiedSeat((x,y),vector, seats)
+  }
 
   def fromLines(lines: List[String]): Seats = {
     val height = lines.size
