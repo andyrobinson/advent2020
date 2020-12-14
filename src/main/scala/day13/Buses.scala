@@ -20,7 +20,7 @@ case class Buses(departTimestamp: Int, busTimesAndIndex: List[(Int,Int)]) {
 
   def earliestTimestamp(): Long = {
     val sortedBuses = busTimesAndIndex.sorted.reverse
-    val firstFewBuses = sortedBuses.take(4) // the execution time is very sensitive to the number we choose here!
+    val (firstFewBuses, remainingBuses) = sortedBuses.splitAt(4) // the execution time is very sensitive to the number we choose here!
     val slowestBus = firstFewBuses.head
 
     // precalculation step
@@ -28,7 +28,7 @@ case class Buses(departTimestamp: Int, busTimesAndIndex: List[(Int,Int)]) {
     val busProduct = firstFewBuses.foldLeft(1)((acc: Int, value) => acc * value._1)
 
     // final calculation step
-    earliest(sortedBuses, firstFewSolution, busProduct)
+    earliest(remainingBuses, firstFewSolution, busProduct)
   }
 
   private def earliest(buses:List[(Int,Int)], start: Long, increment: Long): Long = {
