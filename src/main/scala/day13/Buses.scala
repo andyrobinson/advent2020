@@ -16,6 +16,8 @@ case class Buses(departTimestamp: Int, busTimesAndIndex: List[(Int,Int)]) {
   // the point at which they work is the starting point for our bigger loop
   // and the increment is their product
 
+  // this would seem to suggest we can do this one at a time, but in fact this takes much longer ....
+
   def earliestTimestamp(): Long = {
     val sortedBuses = busTimesAndIndex.sorted.reverse
     val firstFewBuses = sortedBuses.take(4) // the execution time is very sensitive to the number we choose here!

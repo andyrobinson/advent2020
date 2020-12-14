@@ -17,6 +17,7 @@ lazy val day10 = project in file("day10")
 lazy val day11 = project in file("day11")
 lazy val day12 = project in file("day12")
 lazy val day13 = project in file("day13")
+lazy val day14 = project in file("day14")
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.2"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.2" % "test"
