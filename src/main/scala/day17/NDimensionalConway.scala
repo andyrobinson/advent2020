@@ -11,20 +11,24 @@ object NDimensionalConway {
       val count = neighbourCount(cell,grid)
       count <=3 && count > 1
     }
-    val cellsToConsider = grid.flatMap(neighbours(_))
+    val cellsToConsider = grid.flatMap(surroundingCells(_))
     val cellsToGrow = cellsToConsider.filter(neighbourCount(_,grid) == 3)
     cellsToKeep union cellsToGrow
   }
 
   type Grid = Set[List[Int]]
 
-  def neighbours(cell: List[Int]): Grid = {
+  def surroundingCells(cell: List[Int]): Grid = {
     val dimensions = cell.size
-    allDirections(dimensions).map{list => list.zip(cell).map{case (a,b) => a+b}}.toSet
+    allDirections(dimensions).map{cellDelta => addCells(cell, cellDelta)}.toSet
+  }
+
+  private def addCells(cell1: List[Int], cell2: List[Int]) = {
+    cell2.zip(cell1).map { case (a, b) => a + b }
   }
 
   private def neighbourCount(cell: List[Int], grid: Grid): Int = {
-    (neighbours(cell) intersect(grid)).size
+    (surroundingCells(cell) intersect(grid)).size
   }
 
   private def calculateAllDirections(dimensions: Int): List[List[Int]] = {

@@ -18,7 +18,7 @@ class NDimensionalConwaySpec extends AnyFunSpec with Matchers {
   }
 
   it("should calculate the neighbours of a cell") {
-    val neighbours = NDimensionalConway.neighbours(List(4,5,6))
+    val neighbours = NDimensionalConway.surroundingCells(List(4,5,6))
     //neighbours.size shouldBe 26
     neighbours shouldBe Set(
       List(3,4,5),List(3,5,5),List(3,6,5),List(4,4,5),List(4,5,5),List(4,6,5),List(5,4,5),List(5,5,5),List(5,6,5),
