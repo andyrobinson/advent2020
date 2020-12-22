@@ -18,20 +18,30 @@ class TileSpec extends AnyFunSpec with Matchers {
       "..###..###")
     val tile = Tile.fromLines(lines)
 
-    tile shouldBe Tile(2311,List("..##.#..#.","...#.##..#","###..###..",".#..#####."))
+    tile shouldBe Tile(2311,
+      List("..##.#..#.","...#.##..#","###..###..",".#..#####."),
+      List(
+        "#..#....",
+        "...##..#",
+        "###.#...",
+        "#.##.###",
+        "#...#.##",
+        "#.#.#..#",
+        ".#....#.",
+        "##...#.#"))
   }
 
   it("should rotate a tile a given number of places") {
-    val tile = Tile(10,List("top", "right", "bottom", "left"))
-    Tile.rotateLeft(tile,1) shouldBe Tile(10,List("right","bottom","left","top"))
-    Tile.rotateLeft(tile,2) shouldBe Tile(10,List("bottom","left","top","right"))
-    Tile.rotateLeft(tile,3) shouldBe Tile(10,List("left","top","right","bottom"))
+    val tile = Tile(10,List("top", "right", "bottom", "left"), List("###","...",".#."))
+    Tile.rotateLeft(tile,1) shouldBe Tile(10,List("right","bottom","left","top"),List("#..","#.#","#.."))
+    Tile.rotateLeft(tile,2) shouldBe Tile(10,List("bottom","left","top","right"),List(".#.","...","###"))
+    Tile.rotateLeft(tile,3) shouldBe Tile(10,List("left","top","right","bottom"),List("..#","#.#","..#"))
     Tile.rotateLeft(tile,4) shouldBe tile
   }
 
   it("should flip a tile") {
-    val tile = Tile(20,List("top", "right", "bottom", "left"))
-    Tile.flipHoriz(tile) shouldBe Tile(20,List("pot","tfel","mottob","thgir"))
+    val tile = Tile(20,List("top", "right", "bottom", "left"),List("..#","..#",".##"))
+    Tile.flipHoriz(tile) shouldBe Tile(20,List("pot","tfel","mottob","thgir"),List("#..","#..","##."))
   }
 
   it("should produce all permutations (there should be 8)") {

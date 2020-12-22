@@ -5,6 +5,9 @@ case class Tiles(tiles: List[Tile]) {
 }
 
 object Tiles {
+  def hashes(tile: Tile):Int =
+    tile.content.foldLeft(0:Int)((acc, str) => acc + str.count(_ == '#'))
+
   def fromInput(lines:List[String]): Tiles =
     Tiles(getTiles(lines))
 
@@ -18,6 +21,23 @@ object Tiles {
     val gs = gridSize -1
     (grid(0,0).id.toLong * grid(0,gs).id.toLong * grid(gs, 0).id.toLong * grid(gs,gs).id.toLong)
   }
+
+  def findCompleteGrid(tiles: Tiles, gridSize: Int): Tile = {
+    val grid = findGrid(tiles, gridSize)
+    val content = (0 to (gridSize * 8 -1)).foldLeft(List.empty[String]){(acc, y) =>
+      acc :+ (0 to gridSize-1).foldLeft(""){(line, x) => line + grid(x, y/8).content(y%8)}
+      }
+    Tile(0,List("0","0","0","0"),content)
+  }
+
+  def countMonsters(tile: Tile) :Int = {
+    (0 to tile.content.size - 3).foldLeft(0) {(acc, y) =>
+      acc + (0 to tile.content.head.size - 20).foldLeft(0) {(acc2, x) =>
+        if (Kraken.isAt((x,y),tile.content)) acc2 + 1 else acc2
+      }
+    }
+  }
+
 
   def findGrid(tiles:Tiles,gridSize:Int): Map[(Int,Int),Tile] = {
     val (grid, found) = findGrid1(Map.empty[(Int,Int),Tile],tiles.allPermutations(),(0,0),gridSize)
