@@ -22,7 +22,7 @@ object Seats {
 
   private def neighbourCount(seat: (Int,Int), seats: Seats): Int = {
     allDirections.foldLeft(0) {case (acc, (xOffset, yOffset)) =>
-      if (seats.seating.getOrElse((seat._1 + xOffset, seat._2 + yOffset), false)) acc + 1 else acc
+      if (seats.seating.isDefinedAt((seat._1 + xOffset, seat._2 + yOffset))) acc + 1 else acc
     }
   }
 
@@ -42,7 +42,7 @@ object Seats {
   private def visibleOccupiedSeat(coordinates: (Int, Int), vector: (Int, Int), seats: Seats): Boolean = {
     val (x,y) = (coordinates._1 + vector._1, coordinates._2 + vector._2)
     if (x < 0 || y < 0 || x >= seats.width || y >= seats.height) return false
-    if (seats.seating.isDefinedAt((x,y))) return seats.seating.get((x,y)).get
+    if (seats.seating.isDefinedAt((x,y))) return seats.seating((x,y))
     visibleOccupiedSeat((x,y),vector, seats)
   }
 

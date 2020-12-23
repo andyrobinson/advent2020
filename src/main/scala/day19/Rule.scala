@@ -36,7 +36,7 @@ object Rule {
 
 object Rules {
   def matching(patterns: List[String], rules: Map[Int, Rule]):Set[String] =
-    patterns.toSet.filter(pattern =>rules.get(0).get.isValid(pattern, rules))
+    patterns.toSet.filter(pattern =>rules(0).isValid(pattern, rules))
 
   def patternsFromInput(value: List[String]):List[String] = value.dropWhile(_.nonEmpty).filter(_.nonEmpty)
 
