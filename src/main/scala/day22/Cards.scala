@@ -13,21 +13,21 @@ object Cards {
     if (result._1.isEmpty) ("Player 2", result, score(result._2)) else ("Player 1", result, score(result._1))
   }
 
-  def game(number: Int, decks: Decks, previousHands: List[Decks] = List.empty[Decks]): Decks = {
+  def game(number: Int, decks: Decks, previousHands: Set[Decks] = Set.empty[Decks]): Decks = {
     if (previousHands.contains(decks)) (decks._1, List.empty[Int]) // loop detect
     else decks match {
       case (Nil,Nil) => throw new RuntimeException("unexpected draw!")
       case (a,b) if (a.isEmpty || b.isEmpty) => (a,b)
       case (a,b) if (a.head >= a.size || b.head >= b.size) => {
         val roundResult = playRound((a, b))
-        game(number, roundResult, decks::previousHands)
+        game(number, roundResult, previousHands + decks)
       }
       case (hd1::tl1, hd2::tl2) => {
         val subGame = game(number * 10 + 1, (tl1.take(hd1),tl2.take(hd2)))
         if (subGame._1.isEmpty)
-          game(number, (tl1, tl2 :+ hd2 :+ hd1), decks::previousHands)
+          game(number, (tl1, tl2 :+ hd2 :+ hd1), previousHands + decks)
         else
-          game(number, (tl1 :+ hd1 :+ hd2,tl2), decks::previousHands)
+          game(number, (tl1 :+ hd1 :+ hd2,tl2), previousHands + decks)
       } 
     }
   }
