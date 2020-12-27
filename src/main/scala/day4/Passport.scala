@@ -2,8 +2,8 @@ package day4
 
 case class Passport(pairs: Map[String, String]) {
   def isValid: Boolean = {
-    val requiredKeys = Set("ecl", "hcl", "pid", "iyr", "eyr", "byr", "hgt")
-    if (pairs.keys.toSet.intersect(requiredKeys) != requiredKeys) return false
+
+    if (missingFields()) return false
 
     if (pairs("byr").toInt < 1920 || pairs("byr").toInt > 2002) return false
     if (pairs("iyr").toInt < 2010 || pairs("iyr").toInt > 2020) return false
@@ -28,6 +28,11 @@ case class Passport(pairs: Map[String, String]) {
     if (!pidRegEx.matches(pairs("pid"))) return false
 
     true
+  }
+
+  def missingFields(): Boolean = {
+    val requiredKeys = Set("ecl", "hcl", "pid", "iyr", "eyr", "byr", "hgt")
+    pairs.keys.toSet.intersect(requiredKeys) != requiredKeys
   }
 }
 
