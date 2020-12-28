@@ -2,16 +2,16 @@ package day23
 
 import scala.annotation.tailrec
 
-case class GameState(cups: Ring, currentCup: Int) {
-  def fromOne(count: Int): String = cups.remove(1, count)._2.mkString("")
+case class GameState(cups: Ring, currentCup: Long) {
+  def fromOne(count: Long): String = cups.remove(1, count)._2.mkString("")
   def productOfNextTwo: Long = cups.next(1).toLong * cups.next(cups.next(1)).toLong
 }
 
-case class CrabGame(startingCups: List[Int]) {
+case class CrabGame(startingCups: List[Long]) {
   val maxCup = startingCups.max
 
   @tailrec
-  final def play(currentCup:Int, iterations: Int, cups: Ring = Ring().splice(startingCups)): GameState = {
+  final def play(currentCup:Long, iterations: Long, cups: Ring = Ring().splice(startingCups)): GameState = {
     if (iterations == 0) GameState(cups, currentCup)
     else {
       val newState = playRound(currentCup, cups)
@@ -19,7 +19,7 @@ case class CrabGame(startingCups: List[Int]) {
     }
   }
 
-  def playRound(currentCup: Int, cups: Ring = Ring().splice(startingCups)): GameState = {
+  def playRound(currentCup: Long, cups: Ring = Ring().splice(startingCups)): GameState = {
     val (reducedCups, removed) = cups.remove(currentCup, 3)
     val nextCup = findDestinationCup(currentCup, removed)
     val newCups = reducedCups.splice(removed, Some(nextCup))
@@ -27,7 +27,7 @@ case class CrabGame(startingCups: List[Int]) {
     GameState(newCups, newCurrentCup)
   }
 
-  def findDestinationCup(currentCup: Int, removedCups: List[Int]): Int = {
+  def findDestinationCup(currentCup: Long, removedCups: List[Long]): Long = {
     val next = (currentCup - 2 + maxCup) % maxCup + 1
     if (removedCups.contains(next)) findDestinationCup(next, removedCups.filter(_ != next)) else next
   }
