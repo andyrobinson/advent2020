@@ -17,7 +17,7 @@ object Cards {
     if (previousHands.contains(decks)) (decks._1, List.empty[Int]) // loop detect
     else decks match {
       case (Nil,Nil) => throw new RuntimeException("unexpected draw!")
-      case (a,b) if (a.isEmpty || b.isEmpty) => (a,b)
+      case x @ ((_,Nil) | (Nil,_)) => x
       case (a,b) if (a.head >= a.size || b.head >= b.size) => {
         val roundResult = playRound((a, b))
         game(number, roundResult, previousHands + decks)
