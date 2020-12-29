@@ -17,7 +17,7 @@ object Main extends App {
 
   println("Answer 1: " + treeCount(1,3, slopeSize))
 
-  var product: Long =  List((1,1), (1,3), (1,5), (1,7), (2,1)).foldLeft(1: Long) {
+  val product: Long =  List((1,1), (1,3), (1,5), (1,7), (2,1)).foldLeft(1: Long) {
     case (acc, (down, along)) => treeCount(down,along, slopeSize) * acc
   }
 
